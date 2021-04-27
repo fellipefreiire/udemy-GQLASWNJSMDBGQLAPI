@@ -38,5 +38,22 @@ export default {
         throw err
       }
     }
+  ),
+  deleteTask: combineResolvers(
+    isAuthenticated,
+    isTaskOwner,
+    async (_: {}, { id }, { loggedInUserId }) => {
+      try {
+        const task = await Task.findByIdAndDelete(id)
+        await User.updateOne(
+          { _id: loggedInUserId },
+          { $pull: { tasks: task.id } }
+        )
+        return task
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    }
   )
 }
