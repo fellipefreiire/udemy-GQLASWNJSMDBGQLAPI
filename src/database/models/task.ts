@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
 
+interface TaskDoc extends mongoose.Document {
+  name: String
+  completed: Boolean
+  user: mongoose.Schema.Types.ObjectId[]
+  timestamps: boolean
+}
+
 const taskSchema = new mongoose.Schema(
   {
     name: {
@@ -20,4 +27,4 @@ const taskSchema = new mongoose.Schema(
   }
 )
 
-export default mongoose.model('Task', taskSchema)
+export default mongoose.model<TaskDoc>('Task', taskSchema)

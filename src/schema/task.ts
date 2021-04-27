@@ -13,7 +13,7 @@ type Task {
   name: String!
   completed: Boolean!
   user: User!
-  createAt: Date!
+  createdAt: Date!
   updatedAt: Date!
 }
 

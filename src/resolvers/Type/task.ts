@@ -1,7 +1,13 @@
-import { users } from '../../constants'
+import User from '../../database/models/user'
 
 export default {
-  user: ({ userId }) => {
-    return users.find(user => user.id === userId)
+  user: async parent => {
+    try {
+      const user = await User.findById(parent.user)
+      return user
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
   }
 }

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const connection = async () => {
+export const connection = async () => {
   try {
     await mongoose.connect(process.env.MONGO_DB_URL, {
       useNewUrlParser: true,
@@ -13,4 +13,6 @@ const connection = async () => {
   }
 }
 
-export default connection
+export const isValidObjectId = id => {
+  return mongoose.Types.ObjectId.isValid(id)
+}

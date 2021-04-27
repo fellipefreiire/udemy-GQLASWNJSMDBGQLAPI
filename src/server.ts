@@ -5,8 +5,18 @@ import dotEnv from 'dotenv'
 
 import { resolvers } from './resolvers'
 import { typeDefs } from './schema'
-import connection from './database/util'
+import { connection } from './database/util/index'
 import { verifyUser } from './context'
+
+type ObjectId = typeof import('mongodb').ObjectID
+
+interface reqContextInterface {
+  req: {
+    email: ObjectId
+    loggedInUserId: ObjectId
+  }
+}
+
 //set env variables
 dotEnv.config()
 
@@ -24,11 +34,11 @@ app.use(express.json())
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
+  context: async ({ req }: reqContextInterface) => {
     await verifyUser(req)
     return {
-      //@ts-ignore
-      email: req.email
+      email: req.email,
+      loggedInUserId: req.loggedInUserId
     }
   }
 })
