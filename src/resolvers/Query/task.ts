@@ -7,9 +7,12 @@ import Task from '../../database/models/task'
 export default {
   tasks: combineResolvers(
     isAuthenticated,
-    async (_: {}, __: {}, { loggedInUserId }) => {
+    async (_: {}, { skip = 0, limit = 10 }, { loggedInUserId }) => {
       try {
         const tasks = await Task.find({ user: loggedInUserId })
+          .sort({ _id: -1 })
+          .skip(skip)
+          .limit(limit)
         return tasks
       } catch (err) {
         console.log(err)

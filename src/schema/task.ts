@@ -1,6 +1,6 @@
 export const task = `
 extend type Query {
-  tasks: [Task!]
+  tasks(skip: Int, limit: Int): [Task!]
   task(id: ID!): Task
 }
 
