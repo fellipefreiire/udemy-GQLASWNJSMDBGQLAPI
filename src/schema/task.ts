@@ -6,6 +6,7 @@ extend type Query {
 
 extend type Mutation {
   createTask(input: createTaskInput!): Task
+  updateTask(id: ID!, input: updateTaskInput!): Task
 }
 
 type Task {
@@ -20,5 +21,10 @@ type Task {
 input createTaskInput {
   name: String!
   completed: Boolean!
+}
+
+input updateTaskInput {
+  name: String
+  completed: Boolean
 }
 `
