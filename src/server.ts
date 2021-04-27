@@ -2,11 +2,13 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import cors from 'cors'
 import dotEnv from 'dotenv'
+import Dataloader from 'dataloader'
 
 import { resolvers } from './resolvers'
 import { typeDefs } from './schema'
 import { connection } from './database/util/index'
 import { verifyUser } from './context'
+import loaders from './loaders'
 
 type ObjectId = typeof import('mongodb').ObjectID
 
@@ -38,7 +40,10 @@ const apolloServer = new ApolloServer({
     await verifyUser(req)
     return {
       email: req.email,
-      loggedInUserId: req.loggedInUserId
+      loggedInUserId: req.loggedInUserId,
+      loaders: {
+        user: new Dataloader(keys => loaders.batchUsers(keys))
+      }
     }
   }
 })

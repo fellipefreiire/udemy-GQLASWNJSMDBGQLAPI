@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 export const connection = async () => {
+  // mongoose.set('debug', true)
   try {
     await mongoose.connect(process.env.MONGO_DB_URL, {
       useNewUrlParser: true,
